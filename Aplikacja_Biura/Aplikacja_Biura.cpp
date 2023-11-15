@@ -296,3 +296,63 @@ public:
 
     }
 };
+
+int main() {
+    Zarzadanie_uzytkownikami zarzadzanie1;
+    po_zalogowaniu po_zalogowaniu1;
+
+    int liczba;
+    do {
+        cout << "Co chcesz zrobic?" << endl;
+        cout << "1 - Zarejestruj sie" << endl;
+        cout << "2 - Zaloguj sie" << endl;
+        cout << "0 - Wyjdz" << endl;
+        cin >> liczba;
+
+        switch (liczba) {
+        case 0:
+            cout << "Program zamknięty!" << endl;
+            break;
+        case 1: {
+            string nazwa, haslo, email;
+            bool poprawny_email = false;
+            cout << "Wprowadz nazwe uzytkownika:  ";
+            cin >> nazwa;
+            do {
+                cout << "Wprowadz swoj adres email: ";
+                cin >> email;
+                regex emailRegex(R"([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})");
+                if (regex_match(email, emailRegex)) {
+                    poprawny_email = true;
+                }
+                else {
+                    cout << "Adres e-mail jest niepoprawny." << endl;
+                }
+            } while (!poprawny_email);
+            cout << "Wprowadz haslo: ";
+            cin >> haslo;
+            zarzadzanie1.rejestracja(nazwa, haslo, email);
+            po_zalogowaniu1.funkcje(nazwa);
+            break;
+        }
+        case 2: {
+            string nazwa, haslo, email;
+            bool poprawny_email = false;
+            cout << "Wprowadz nazwe uzytkownika: ";
+            cin >> nazwa;
+            cout << "Wprowadz haslo: ";
+            cin >> haslo;
+            if (zarzadzanie1.logowanie(nazwa, haslo)) {
+                po_zalogowaniu1.funkcje(nazwa);
+            }
+            break;
+        }
+        default:
+            cout << "Nie ma takiej liczby! Spróbuj jeszcze raz!" << endl;
+            break;
+        }
+
+    } while (liczba != 0);
+
+    return 0;
+}
